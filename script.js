@@ -21,3 +21,25 @@ function renderTodos() {
     todoList.appendChild(li);
   }
 }
+ //When a form is sumitted...
+todoForm.addEventListener("submit", function(event) {
+ event.preventDefault();
+
+let todoText = todoInput.value.trim();
+
+// Return from function early is submitted todoText is blank
+
+if (todoText === "") {
+    return;
+} 
+
+// Add new todoText to todos array, clear the input
+
+todos.push(todoText);
+todoInput.value = "";
+
+// Re-render the list
+
+renderTodos();
+
+});
