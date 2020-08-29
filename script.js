@@ -18,28 +18,46 @@ function renderTodos() {
 
     let li = document.createElement("li");
     li.textContent = todo;
+    li.setAttribute("data-index", i);
+
+    let button = document.createElement("button");
+    button.textContent = "Complete";
+
+    li.appendChild(button);
     todoList.appendChild(li);
   }
 }
- //When a form is sumitted...
+
+// When form is submitted...
 todoForm.addEventListener("submit", function(event) {
- event.preventDefault();
+  event.preventDefault();
 
-let todoText = todoInput.value.trim();
+  let todoText = todoInput.value.trim();
 
-// Return from function early is submitted todoText is blank
-
-if (todoText === "") {
+  // Return from function early if submitted todoText is blank
+  if (todoText === "") {
     return;
-} 
+  }
 
-// Add new todoText to todos array, clear the input
+  // Add new todoText to todos array, clear the input
+  todos.push(todoText);
+  todoInput.value = "";
 
-todos.push(todoText);
-todoInput.value = "";
+  // Re-render the list
+  renderTodos();
+});
 
-// Re-render the list
+// When a element inside of the todoList is clicked...
+todoList.addEventListener("click", function(event) {
+  let element = event.target;
 
-renderTodos();
+  // If that element is a button...
+  if (element.matches("button") === true) {
+    // Get its data-index value and remove the todo element from the list
+    let index = element.parentElement.getAttribute("data-index");
+    todos.splice(index, 1);
 
+    // Re-render the list
+    renderTodos();
+  }
 });
